@@ -1,4 +1,4 @@
-# JTL - Containerised PHP - Skeleton Process 
+# JTL - Containerised PHP Skeleton Project 
 
 
 ## How-To-Start

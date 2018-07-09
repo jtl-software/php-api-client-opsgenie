@@ -1,0 +1,41 @@
+stages:
+  - test
+  - build
+  - deploy
+
+unittests:
+  stage: test
+  script:
+  - time ./composer install --no-scripts
+  - time ./vendor/bin/phpunit --coverage-text --colors=never
+
+php-cs-fixer:
+  stage: test
+  script:
+  - time ./composer install --no-scripts
+  - time ./composer phpcs
+
+build-vendor:
+  stage: build
+  script:
+  - time ./composer install --no-dev --optimize-autoloader --no-scripts
+  artifacts:
+    paths:
+    - vendor/
+  when: on_success
+
+deploy-prod:
+  dependencies:
+  - build-vendor
+  stage: deploy
+  variables:
+    TARGET_SERVER: prod-user@example.com
+    REMOTE_FOLDER: /var/www/your-app/
+  environment:
+    name: production
+    url: https://ea.api.jtl-software.com/health
+  script:
+  - time echo "deploy to" ${TARGET_SERVER}:${REMOTE_FOLDER}
+  when: on_success
+  only:
+  - /^(\d+\.)?(\d+\.)?(\*|\d+)$/

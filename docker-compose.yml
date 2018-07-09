@@ -16,3 +16,19 @@ services:
       working_dir: /application
       volumes:
         - .:/application/source
+
+#    You need a Database? Here we go!
+#    develdb:
+#      image: mariadb:latest
+#      container_name: jtl-mariadb
+#      environment:
+#        MYSQL_ROOT_PASSWORD: 'root'
+#        MYSQL_DATABASE: 'skeleton'
+#        MYSQL_USER: 'skeleton'
+#        MYSQL_PASSWORD: 'pass'
+#      volumes:
+#        - ./var/dbvolume:/var/lib/mysql
+#        - ./docker/initdb:/docker-entrypoint-initdb.d
+#      ports:
+#        - "3306:3306"
+#      working_dir: /application

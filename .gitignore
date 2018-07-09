@@ -1,0 +1,6 @@
+.idea/
+/vendor/
+/node_modules/
+var/
+build
+.php_cs.cache

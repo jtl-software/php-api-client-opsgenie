@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+
+    webserver:
+      image: nginx:latest
+      container_name: jtl-webserver
+      working_dir: /application
+      volumes:
+          - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8011:80"
+
+    php-fpm:
+      build: docker/php-fpm
+      container_name: jtl-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application/source

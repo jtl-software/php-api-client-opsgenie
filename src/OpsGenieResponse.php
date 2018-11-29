@@ -45,7 +45,7 @@ abstract class OpsGenieResponse
         return $this->body[$key] ?? null;
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->getFromBody('message');
     }

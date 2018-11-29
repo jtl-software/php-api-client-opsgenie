@@ -1,5 +1,5 @@
 {
-    "name": "jtl/project-skeleton",
+    "name": "jtl/opsgenie-client",
     "type": "project",
     "license": "proprietary",
     "repositories": [
@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
@@ -17,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "JTL\\Skeleton\\": "src/"
+            "JTL\\OpsGenie\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JTL\\Skeleton\\": "tests"
+            "JTL\\OpsGenie\\Client\\": "tests"
         }
     },
     "config": {

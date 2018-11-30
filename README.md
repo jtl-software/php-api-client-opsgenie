@@ -1,4 +1,4 @@
-# JTL - PHP API Client for OpsGenie SDK
+# JTL - PHP API Client for OpsGenie
 
 [![Build Status](https://travis-ci.org/JTLSoftwareGmbH/php-api-client-opsgenie.svg?branch=master)](https://travis-ci.org/JTLSoftwareGmbH/php-api-client-opsgenie)
 

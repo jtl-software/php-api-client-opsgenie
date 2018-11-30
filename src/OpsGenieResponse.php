@@ -17,7 +17,7 @@ abstract class OpsGenieResponse
     private $statusCode;
 
     /**
-     * @var string
+     * @var array
      */
     private $body;
 
@@ -40,11 +40,18 @@ abstract class OpsGenieResponse
         return $this->statusCode;
     }
 
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
     public function getFromBody(string $key)
     {
         return $this->body[$key] ?? null;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMessage(): ?string
     {
         return $this->getFromBody('message');
@@ -55,7 +62,7 @@ abstract class OpsGenieResponse
      */
     public function getRequestId(): string
     {
-        return $this->body['requestId'] ?? 'unknown';
+        return $this->getFromBody('requestId') ?? 'unknown';
     }
 
     /**

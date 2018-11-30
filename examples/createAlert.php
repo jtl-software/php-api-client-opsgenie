@@ -80,3 +80,9 @@ $_ = $client->closeAlert($request);
 var_dump($_->isSuccessful());
 
 
+$request = new CloseAlertRequest('gibt-es-nicht');
+$_ = $client->closeAlert($request);
+var_dump($_->isSuccessful());
+
+
+

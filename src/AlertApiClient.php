@@ -73,7 +73,6 @@ final class AlertApiClient
     /**
      * @param CreateAlertRequest $request
      * @return CreateAlertResponse|OpsGenieResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createAlert(CreateAlertRequest $request): CreateAlertResponse
     {
@@ -83,7 +82,6 @@ final class AlertApiClient
     /**
      * @param GetAlertRequest $request
      * @return GetAlertResponse|OpsGenieResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAlert(GetAlertRequest $request): GetAlertResponse
     {
@@ -93,7 +91,6 @@ final class AlertApiClient
     /**
      * @param CloseAlertRequest $request
      * @return CloseAlertResponse|OpsGenieResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function closeAlert(CloseAlertRequest $request): CloseAlertResponse
     {
@@ -103,7 +100,6 @@ final class AlertApiClient
     /**
      * @param OpsGenieRequest $request
      * @return ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request(OpsGenieRequest $request): ResponseInterface
     {
@@ -129,6 +125,9 @@ final class AlertApiClient
             return $this->client->request($request->getHttpMethod(), $request->getUrl(), $option);
         } catch (BadResponseException $e) {
             return $e->getResponse();
+        } catch (\GuzzleHttp\Exception\GuzzleException|\Exception $e) {
+            $msg = get_class($e) . ": " . $e->getMessage();
+            throw new \RuntimeException($msg, $e->getCode());
         }
     }
 

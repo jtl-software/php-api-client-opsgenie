@@ -9,6 +9,7 @@
 namespace JTL\OpsGenie\Client;
 
 use GuzzleHttp\Exception\BadResponseException;
+use http\Exception\RuntimeException;
 use JTL\OpsGenie\Client\Alert\CloseAlertRequest;
 use JTL\OpsGenie\Client\Alert\CloseAlertResponse;
 use JTL\OpsGenie\Client\Alert\CreateAlertRequest;
@@ -117,6 +118,19 @@ class AlertApiClientTest extends TestCase
         $client = new AlertApiClient(123, $curlMock);
         $requestMock = $this->createMock(CloseAlertRequest::class);
         $this->assertInstanceOf(CloseAlertResponse::class, $client->closeAlert($requestMock));
+    }
+
+    public function testThrowExceptionIfEverythingFail()
+    {
+        $curlMock = $this->createMock(\GuzzleHttp\Client::class);
+        $curlMock->expects($this->once())->method('request')
+            ->willThrowException(new \Exception());
+
+        $client = new AlertApiClient(123, $curlMock);
+        $requestMock = $this->createMock(CloseAlertRequest::class);
+
+        $this->expectException(\RuntimeException::class);
+        $client->closeAlert($requestMock);
     }
 
     public function testCreateForEUApi()

@@ -15,7 +15,7 @@ https://docs.opsgenie.com/docs/alert-api
 
 ## How-To-Use
 
-````
+````php
 # named constructor to create a client (for EU)
 $client = AlertApiClient::createForEUApi(getenv(UPSGENIE_TOKEN));
 

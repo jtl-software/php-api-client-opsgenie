@@ -12,8 +12,11 @@ https://docs.opsgenie.com/docs/alert-api
 * Create Alert
 * Get specific Alert (by alias) from API
 * Close Alert 
+* Ping Heatbeat
 
 ## How-To-Use
+
+Create / Get / Close Alert 
 
 ````php
 # named constructor to create a client (for EU)
@@ -30,4 +33,18 @@ if($response->isSuccessful()){
     // close our former created alert
     $client->closeAlert(new CloseAlertRequest($alert->getAlias()));
 }
+````
+
+
+Ping Heartbeat
+
+````php
+$token = "xxx-xxx-xxx";
+$client = new HeartbeatApiClient(HttpClient::createForEUApi(getenv(UPSGENIE_TOKEN)));
+do {
+    $result = $client->sendPing(new PingRequest('beat'));
+    var_dump($result, $result->isSuccessful());
+    sleep(60);
+} while(true);
+
 ````

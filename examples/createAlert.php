@@ -5,12 +5,12 @@ use JTL\OpsGenie\Client\Alert\CloseAlertRequest;
 use JTL\OpsGenie\Client\Alert\CreateAlertRequest;
 use JTL\OpsGenie\Client\Alert\GetAlertRequest;
 use JTL\OpsGenie\Client\AlertApiClient;
+use JTL\OpsGenie\Client\HttpClient;
 use JTL\OpsGenie\Client\Priority;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$token = "xxx-xxx-xxx";
-$client = AlertApiClient::createForEUApi($token);
+$client = new AlertApiClient(HttpClient::createForEUApi($token));
 $alert = new Alert(
     'eazyauction',
     'test-alert',

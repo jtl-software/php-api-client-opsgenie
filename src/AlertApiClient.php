@@ -10,14 +10,12 @@ declare(strict_types=1);
 
 namespace JTL\OpsGenie\Client;
 
-use GuzzleHttp\Exception\BadResponseException;
 use JTL\OpsGenie\Client\Alert\CloseAlertRequest;
 use JTL\OpsGenie\Client\Alert\CloseAlertResponse;
 use JTL\OpsGenie\Client\Alert\CreateAlertRequest;
 use JTL\OpsGenie\Client\Alert\CreateAlertResponse;
 use JTL\OpsGenie\Client\Alert\GetAlertRequest;
 use JTL\OpsGenie\Client\Alert\GetAlertResponse;
-use Psr\Http\Message\ResponseInterface;
 
 final class AlertApiClient
 {
@@ -28,125 +26,42 @@ final class AlertApiClient
     private $client;
 
     /**
-     * @var string
-     */
-    private $authToken;
-
-    /**
      * OpsGenieApiClient constructor.
      *
-     * @param string $authToken
-     * @param \GuzzleHttp\Client $client
+     * @param HttpClient
      */
-    public function __construct(string $authToken, \GuzzleHttp\Client $client)
+    public function __construct(HttpClient $client)
     {
-        $this->authToken = $authToken;
         $this->client = $client;
     }
 
     /**
-     * Create Client for US Customers
-     *
-     * @param string $authToken
-     * @param string $version
-     * @return AlertApiClient
-     */
-    public static function createForUSApi(string $authToken, string $version = '2'): AlertApiClient
-    {
-        $guzzleClient = new \GuzzleHttp\Client(['base_uri' => "https://api.opsgenie.com/v{$version}/"]);
-        return new AlertApiClient($authToken, $guzzleClient);
-    }
-
-    /**
-     * Create Client fpr European Customers
-     *
-     * @param string $authToken
-     * @param string $version
-     * @return AlertApiClient
-     */
-    public static function createForEUApi(string $authToken, string $version = '2'): AlertApiClient
-    {
-        $guzzleClient = new \GuzzleHttp\Client(['base_uri' => "https://api.eu.opsgenie.com/v{$version}/"]);
-        return new AlertApiClient($authToken, $guzzleClient);
-    }
-
-    /**
      * @param CreateAlertRequest $request
-     * @return CreateAlertResponse|OpsGenieResponse
+     * @return CreateAlertResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createAlert(CreateAlertRequest $request): CreateAlertResponse
     {
-        return $this->createResponse($this->request($request), CreateAlertResponse::class);
+        return $this->client->request($request, CreateAlertResponse::class);
     }
 
     /**
      * @param GetAlertRequest $request
-     * @return GetAlertResponse|OpsGenieResponse
+     * @return GetAlertResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAlert(GetAlertRequest $request): GetAlertResponse
     {
-        return $this->createResponse($this->request($request), GetAlertResponse::class);
+        return $this->client->request($request, GetAlertResponse::class);
     }
 
     /**
      * @param CloseAlertRequest $request
-     * @return CloseAlertResponse|OpsGenieResponse
+     * @return CloseAlertResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function closeAlert(CloseAlertRequest $request): CloseAlertResponse
     {
-        return $this->createResponse($this->request($request), CloseAlertResponse::class);
-    }
-
-    /**
-     * @param OpsGenieRequest $request
-     * @return ResponseInterface
-     */
-    public function request(OpsGenieRequest $request): ResponseInterface
-    {
-        try {
-            $option = [
-                'headers' => [
-                    'Authorization' => 'GenieKey ' . $this->authToken,
-                    'Content-Type' => 'application/json',
-                ],
-                // 'debug' => true
-            ];
-
-            if ($request->getHttpMethod() !== "GET") {
-
-                //add default empty body as default because php  will otherwise create a [] as body
-                $option['body'] = "{}";
-
-                if (!empty($request->getBody())) {
-                    $option['body'] = \GuzzleHttp\json_encode($request->getBody());
-                }
-            }
-
-            return $this->client->request($request->getHttpMethod(), $request->getUrl(), $option);
-        } catch (BadResponseException $e) {
-            return $e->getResponse();
-        } catch (\GuzzleHttp\Exception\GuzzleException|\Exception $e) {
-            $msg = get_class($e) . ": " . $e->getMessage();
-            throw new \RuntimeException($msg, $e->getCode());
-        }
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @param string $objectName
-     * @return OpsGenieResponse
-     */
-    private function createResponse(ResponseInterface $response, string $objectName): OpsGenieResponse
-    {
-        return new $objectName($response->getStatusCode(), $this->getBodyAsArray((string)$response->getBody()));
-    }
-
-    /**
-     * @param string $body
-     * @return array
-     */
-    private function getBodyAsArray(string $body): array
-    {
-        return \GuzzleHttp\json_decode($body, true);
+        return $this->client->request($request, CloseAlertResponse::class);
     }
 }

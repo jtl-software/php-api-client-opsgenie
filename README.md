@@ -1,6 +1,6 @@
 # JTL - PHP API Client for OpsGenie
 
-[![Build Status](https://travis-ci.org/JTLSoftwareGmbH/php-api-client-opsgenie.svg?branch=master)](https://travis-ci.org/JTLSoftwareGmbH/php-api-client-opsgenie)
+[![Build Status](https://travis-ci.org/jtl-software/php-api-client-opsgenie.svg?branch=master)](https://travis-ci.org/jtl-software/php-api-client-opsgenie)
 
 PHP implementation to connect to OpsGenie Alert API. The implementation is focused on what
 we require @JTL for our application Alerting.

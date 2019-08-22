@@ -31,9 +31,14 @@ class HttpClient
      * @param string $version
      * @return HttpClient
      */
-    public static function createForUSApi(string $authToken, string $version = '2'): HttpClient
+    public static function createForUSApi(string $authToken, string $version = '2', int $timeout = 5): HttpClient
     {
-        $guzzleClient = new \GuzzleHttp\Client(['base_uri' => "https://api.opsgenie.com/v{$version}/"]);
+        $guzzleClient = new \GuzzleHttp\Client(
+            [
+                'base_uri' => "https://api.opsgenie.com/v{$version}/",
+                RequestOptions::TIMEOUT => $timeout,
+            ]
+        );
         return new HttpClient($authToken, $guzzleClient);
     }
 
@@ -42,9 +47,14 @@ class HttpClient
      * @param string $version
      * @return HttpClient
      */
-    public static function createForEUApi(string $authToken, string $version = '2'): HttpClient
+    public static function createForEUApi(string $authToken, string $version = '2', int $timeout = 5): HttpClient
     {
-        $guzzleClient = new \GuzzleHttp\Client(['base_uri' => "https://api.eu.opsgenie.com/v{$version}/"]);
+        $guzzleClient = new \GuzzleHttp\Client(
+            [
+                'base_uri' => "https://api.eu.opsgenie.com/v{$version}/",
+                RequestOptions::TIMEOUT => $timeout,
+            ]
+        );
         return new HttpClient($authToken, $guzzleClient);
     }
 

@@ -12,6 +12,7 @@ namespace JTL\OpsGenie\Client;
 
 
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 class HttpClient

@@ -54,9 +54,7 @@ class AckAlertRequest implements OpsGenieRequest
     }
 
     public function getUrl(): string
-    {
-        $_ = urlencode($this->alias);
-
+    {     
         return 'acknowledge';
     }
 

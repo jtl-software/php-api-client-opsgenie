@@ -4,4 +4,4 @@
 var/
 build
 .php_cs.cache
-tests/.phpunit.result.cache
+**/.phpunit.result.cache

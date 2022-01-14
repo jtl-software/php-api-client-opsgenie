@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace JTL\OpsGenie\Client;
 
+use JTL\OpsGenie\Client\Alert\AckAlertRequest;
+use JTL\OpsGenie\Client\Alert\AckAlertResponse;
 use JTL\OpsGenie\Client\Alert\CloseAlertRequest;
 use JTL\OpsGenie\Client\Alert\CloseAlertResponse;
 use JTL\OpsGenie\Client\Alert\CreateAlertRequest;
@@ -63,5 +65,15 @@ final class AlertApiClient
     public function closeAlert(CloseAlertRequest $request): CloseAlertResponse
     {
         return $this->client->request($request, CloseAlertResponse::class);
+    }
+
+    /**
+     * @param CloseAlertRequest $request
+     * @return AckAlertResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function ackAlert(AckAlertRequest $request): AckAlertResponse
+    {
+        return $this->client->request($request, AckAlertResponse::class);
     }
 }

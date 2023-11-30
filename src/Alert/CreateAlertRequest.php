@@ -59,7 +59,7 @@ class CreateAlertRequest implements OpsGenieRequest
         }
 
         foreach ($this->alert->getResponders() as $responder) {
-            $body['responders'] = [
+            $body['responders'][] = [
                 'id' => $responder->getId(),
                 'type' => $responder->getType()
             ];

@@ -16,20 +16,19 @@ use PHPUnit\Framework\TestCase;
  */
 class PingRequestTest extends TestCase
 {
-
-    public function testHttpMethodIsPut()
+    public function testHttpMethodIsPut(): void
     {
         $request = new PingRequest('dingens');
         $this->assertEquals('PUT', $request->getHttpMethod());
     }
 
-    public function testBodyIsEmpty()
+    public function testBodyIsEmpty(): void
     {
         $request = new PingRequest('dingens');
         $this->assertEquals([], $request->getBody());
     }
 
-    public function testGetUrl()
+    public function testGetUrl(): void
     {
         $request = new PingRequest('url-foo-bar');
         $this->assertEquals('heartbeats/url-foo-bar/ping', $request->getUrl());

@@ -24,8 +24,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AlertApiClientTest extends TestCase
 {
-
-    public function testCanSendCreateAlertRequest()
+    public function testCanSendCreateAlertRequest(): void
     {
         $clientMock = $this->createMock(HttpClient::class);
         $clientMock->expects($this->once())
@@ -38,7 +37,7 @@ class AlertApiClientTest extends TestCase
         $this->assertInstanceOf(CreateAlertResponse::class, $client->createAlert($requestMock));
     }
 
-    public function testCanSendGetAlertRequest()
+    public function testCanSendGetAlertRequest(): void
     {
         $clientMock = $this->createMock(HttpClient::class);
         $clientMock->expects($this->once())
@@ -51,7 +50,7 @@ class AlertApiClientTest extends TestCase
         $this->assertInstanceOf(GetAlertResponse::class, $client->getAlert($requestMock));
     }
 
-    public function testCanSendCloseAlertRequest()
+    public function testCanSendCloseAlertRequest(): void
     {
         $clientMock = $this->createMock(HttpClient::class);
         $clientMock->expects($this->once())

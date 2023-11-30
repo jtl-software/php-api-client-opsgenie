@@ -7,26 +7,17 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client\Alert;
 
 use JTL\OpsGenie\Client\OpsGenieRequest;
 
 class GetAlertRequest implements OpsGenieRequest
 {
-
-    /**
-     * @var string
-     */
-    private $alias;
-
     /**
      * GetAlertRequest constructor.
-     * @param string $alias
      */
-    public function __construct(string $alias)
+    public function __construct(private readonly string $alias)
     {
-        $this->alias = $alias;
     }
 
     /**

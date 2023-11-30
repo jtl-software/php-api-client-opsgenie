@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This File is part of JTL-Software
  *
@@ -7,34 +8,26 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client;
 
-
+use Exception;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use JsonException;
+use JTL\OpsGenie\Client\Exception\ApiRequestFailException;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class HttpClient
 {
     /**
-     * @var string
-     */
-    protected $authToken;
-
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
-     * @param string $authToken
-     * @param string $version
      * @return HttpClient
      */
     public static function createForUSApi(string $authToken, string $version = '2', int $timeout = 5): HttpClient
     {
-        $guzzleClient = new \GuzzleHttp\Client(
+        $guzzleClient = new Client(
             [
                 'base_uri' => "https://api.opsgenie.com/v{$version}/",
                 RequestOptions::TIMEOUT => $timeout,
@@ -44,13 +37,11 @@ class HttpClient
     }
 
     /**
-     * @param string $authToken
-     * @param string $version
      * @return HttpClient
      */
     public static function createForEUApi(string $authToken, string $version = '2', int $timeout = 5): HttpClient
     {
-        $guzzleClient = new \GuzzleHttp\Client(
+        $guzzleClient = new Client(
             [
                 'base_uri' => "https://api.eu.opsgenie.com/v{$version}/",
                 RequestOptions::TIMEOUT => $timeout,
@@ -61,19 +52,14 @@ class HttpClient
 
     /**
      * HttpClient constructor.
-     * @param string $authToken
-     * @param \GuzzleHttp\Client $client
      */
-    public function __construct(string $authToken, \GuzzleHttp\Client $client)
+    public function __construct(protected string $authToken, protected Client $client)
     {
-        $this->authToken = $authToken;
-        $this->client = $client;
     }
 
     /**
-     * @param OpsGenieRequest $request
-     * @param string $responseType
      * @return OpsGenieResponse
+     * @throws ApiRequestFailException
      */
     public function request(OpsGenieRequest $request, string $responseType): OpsGenieResponse
     {
@@ -87,21 +73,20 @@ class HttpClient
             ];
 
             if ($request->getHttpMethod() !== "GET") {
-
                 //add default empty body as default because php  will otherwise create a [] as body
                 $option['body'] = "{}";
 
-                if (!empty($request->getBody())) {
+                if ($request->getBody() !== []) {
                     $option['body'] = \GuzzleHttp\json_encode($request->getBody());
                 }
             }
 
             $response = $this->client->request($request->getHttpMethod(), $request->getUrl(), $option);
         } catch (BadResponseException $e) {
-            $response =  $e->getResponse();
-        } catch (\GuzzleHttp\Exception\GuzzleException|\Exception $e) {
-            $msg = get_class($e) . ": " . $e->getMessage();
-            throw new \RuntimeException($msg, $e->getCode());
+            $response = $e->getResponse();
+        } catch (GuzzleException|Exception $e) {
+            $msg = $e::class . ": " . $e->getMessage();
+            throw new ApiRequestFailException($msg, $e->getCode(), $e);
         }
 
         return $this->createResponse($response, $responseType);
@@ -111,18 +96,30 @@ class HttpClient
      * @param ResponseInterface $response
      * @param string $objectName
      * @return OpsGenieResponse
+     * @throws JsonException
      */
-    public function createResponse(ResponseInterface $response, string $objectName): OpsGenieResponse
+    private function createResponse(ResponseInterface $response, string $objectName): OpsGenieResponse
     {
-        return new $objectName($response->getStatusCode(), $this->getBodyAsArray((string)$response->getBody()));
+        $responseObject = new $objectName(
+            $response->getStatusCode(),
+            $this->getBodyAsArray((string)$response->getBody())
+        );
+        if ($responseObject instanceof OpsGenieResponse) {
+            return $responseObject;
+        }
+
+        throw new RuntimeException(
+            "Response object must be an instance of " . OpsGenieResponse::class . " but got " . $objectName
+        );
     }
 
     /**
      * @param string $body
      * @return array
+     * @throws JsonException
      */
     protected function getBodyAsArray(string $body): array
     {
-        return \GuzzleHttp\json_decode($body, true);
+        return json_decode($body, true, JSON_THROW_ON_ERROR, JSON_THROW_ON_ERROR);
     }
 }

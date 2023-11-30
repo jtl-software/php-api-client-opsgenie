@@ -10,65 +10,48 @@ namespace JTL\OpsGenie\Client;
 
 class Responder
 {
-    const team = "team";
-    const user = "user";
-    const escalation = "escalation";
-    const schedule = "schedule";
+    final public const team = "team";
+    final public const user = "user";
+    final public const escalation = "escalation";
+    final public const schedule = "schedule";
 
     /**
-     * @var string
-     */
-    private $id;
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @param string $id
      * @return Responder
      */
-    public static function team(string $id)
+    public static function team(string $id): self
     {
         return new Responder($id, self::team);
     }
 
     /**
-     * @param string $id
      * @return Responder
      */
-    public static function user(string $id)
+    public static function user(string $id): self
     {
         return new Responder($id, self::user);
     }
 
     /**
-     * @param string $id
      * @return Responder
      */
-    public static function escalation(string $id)
+    public static function escalation(string $id): self
     {
         return new Responder($id, self::escalation);
     }
 
     /**
-     * @param string $id
      * @return Responder
      */
-    public static function schedule(string $id)
+    public static function schedule(string $id): self
     {
         return new Responder($id, self::schedule);
     }
 
     /**
      * Responder constructor.
-     * @param string $id
-     * @param string $type
      */
-    public function __construct(string $id, string $type)
+    public function __construct(private readonly string $id, private readonly string $type)
     {
-        $this->id = $id;
-        $this->type = $type;
     }
 
     /**

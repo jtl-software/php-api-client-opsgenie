@@ -14,34 +14,10 @@ use JTL\OpsGenie\Client\Responder;
 
 class Alert
 {
-
-    /**
-     * Entity field of the alert that is generally used to specify which domain alert is related to.
-     *
-     * @var string
-     */
-    private $entity;
-
-    /**
-     * Client-defined identifier of the alert, that is also the key element of Alert De-Duplication.
-     *
-     * @var string
-     */
-    private $alias;
-
-    /**
-     * Message of the alert
-     *
-     * @var string
-     */
-    private $message;
-
     /**
      * Description field of the alert that is generally used to provide a detailed information about the alert.
-     *
-     * @var string
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * Teams, users, escalations and schedules that the alert will be routed to send notifications. type field is
@@ -51,45 +27,20 @@ class Alert
      *
      * @var Responder[]
      */
-    private $responders = [];
+    private array $responders = [];
 
     /**
      * Tags of the alert.
-     *
-     * @var array
      */
-    private $tags = [];
-
-    /**
-     * Source field of the alert. Default value is IP address of the incoming request.
-     *
-     * @var string
-     */
-    private $source;
-
-    /**
-     * Priority level of the alert. Possible values are P1, P2, P3, P4 and P5. Default value is P3.
-     *
-     * @var Priority
-     */
-    private $priority;
+    private array $tags = [];
 
     /**
      * CreateAlertRequest constructor.
-     * @param string $entity
-     * @param string $alias
-     * @param string $message
-     * @param string $source
      * @param Priority $priority
      */
-    public function __construct(string $entity, string $alias, string $message, string $source, Priority $priority = null)
+    public function __construct(private readonly string $entity, private readonly string $alias, private readonly string $message, private readonly string $source, private ?\JTL\OpsGenie\Client\Priority $priority = null)
     {
-        $this->entity = $entity;
-        $this->alias = $alias;
-        $this->message = $message;
-        $this->source = $source;
-        $this->priority = $priority;
-        if ($this->priority === null) {
+        if (!$this->priority instanceof \JTL\OpsGenie\Client\Priority) {
             $this->priority = Priority::moderate();
         }
     }
@@ -118,9 +69,6 @@ class Alert
         return $this->message;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -134,9 +82,6 @@ class Alert
         return $this->description;
     }
 
-    /**
-     * @param Responder $responder
-     */
     public function appendResponder(Responder $responder): void
     {
         $this->responders[] = $responder;
@@ -151,8 +96,6 @@ class Alert
     }
 
     /**
-     * @param string $tag
-     *
      * @return Alert
      */
     public function appendTag(string $tag): Alert

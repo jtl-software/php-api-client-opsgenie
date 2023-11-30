@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheResult="true"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         verbose="true">
-    <testsuite name="Unittests">
-        <directory suffix="Test.php">tests</directory>
-    </testsuite>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-html" target="build/report"/>
-        <log type="coverage-clover" target="build/coverage.xml"/>
-        <log type="testdox-html" target="build/testdox.html"/>
-        <log type="testdox-text" target="build/testdox.txt"/>
-    </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" bootstrap="vendor/autoload.php" cacheResult="true" beStrictAboutOutputDuringTests="true" cacheDirectory=".phpunit.cache" requireCoverageMetadata="true" beStrictAboutCoverageMetadata="true">
+  <coverage>
+    <report>
+      <clover outputFile="build/coverage.xml"/>
+      <html outputDirectory="build/report"/>
+    </report>
+  </coverage>
+  <testsuite name="Unittests">
+    <directory suffix="Test.php">tests</directory>
+  </testsuite>
+  <logging>
+    <testdoxHtml outputFile="build/testdox.html"/>
+    <testdoxText outputFile="build/testdox.txt"/>
+  </logging>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </source>
 </phpunit>

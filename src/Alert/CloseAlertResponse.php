@@ -7,7 +7,6 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client\Alert;
 
 use JTL\OpsGenie\Client\OpsGenieResponse;

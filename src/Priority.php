@@ -8,15 +8,13 @@
 
 namespace JTL\OpsGenie\Client;
 
-class Priority
+class Priority implements \Stringable
 {
     private const critical = "P1";
     private const high = "P2";
     private const moderate = "P3";
     private const low = "P4";
     private const informational = "P5";
-
-    private $priority;
 
     public static function critical(): Priority
     {
@@ -43,9 +41,8 @@ class Priority
         return new Priority(Priority::informational);
     }
 
-    public function __construct(string $priority)
+    public function __construct(private readonly string $priority)
     {
-        $this->priority = $priority;
     }
 
     public function __toString(): string

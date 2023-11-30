@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CreateAlertResponseTest extends TestCase
 {
-    public function testHttpCode202IsSuccessful()
+    public function testHttpCode202IsSuccessful(): void
     {
         $response = new CreateAlertResponse(202, []);
         $this->assertTrue($response->isSuccessful());

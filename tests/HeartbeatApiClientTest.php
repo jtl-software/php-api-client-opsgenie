@@ -18,8 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class HeartbeatApiClientTest extends TestCase
 {
-
-    public function testSendPing()
+    public function testSendPing(): void
     {
 
         $clientMock = $this->createMock(HttpClient::class);

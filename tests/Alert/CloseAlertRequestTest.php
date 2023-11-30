@@ -16,25 +16,25 @@ use PHPUnit\Framework\TestCase;
  */
 class CloseAlertRequestTest extends TestCase
 {
-    public function testCanCreateCorrectUrl()
+    public function testCanCreateCorrectUrl(): void
     {
         $request = new CloseAlertRequest('testalert');
         $this->assertStringStartsWith('alerts/testalert/close', $request->getUrl());
     }
 
-    public function testUrlIsUrlEncoded()
+    public function testUrlIsUrlEncoded(): void
     {
         $request = new CloseAlertRequest('test alert/foo');
         $this->assertStringStartsWith('alerts/test+alert%2Ffoo/close', $request->getUrl());
     }
 
-    public function testNotIsOptional()
+    public function testNotIsOptional(): void
     {
         $request = new CloseAlertRequest('testalert');
         $this->assertArrayNotHasKey('note', $request->getBody());
     }
 
-    public function testCanSetNote()
+    public function testCanSetNote(): void
     {
         $request = new CloseAlertRequest('testalert');
         $request->setNote('any note');
@@ -42,13 +42,13 @@ class CloseAlertRequestTest extends TestCase
         $this->assertEquals('any note', $request->getBody()['note']);
     }
 
-    public function testUserIsOptional()
+    public function testUserIsOptional(): void
     {
         $request = new CloseAlertRequest('testalert');
         $this->assertArrayNotHasKey('user', $request->getBody());
     }
 
-    public function testCanSetUser()
+    public function testCanSetUser(): void
     {
         $request = new CloseAlertRequest('testalert');
         $request->setUser('any user');
@@ -56,13 +56,13 @@ class CloseAlertRequestTest extends TestCase
         $this->assertEquals('any user', $request->getBody()['user']);
     }
 
-    public function testSourceIsOptional()
+    public function testSourceIsOptional(): void
     {
         $request = new CloseAlertRequest('testalert');
         $this->assertArrayNotHasKey('source', $request->getBody());
     }
 
-    public function testCanSetSource()
+    public function testCanSetSource(): void
     {
         $request = new CloseAlertRequest('testalert');
         $request->setSource('any source');
@@ -70,7 +70,7 @@ class CloseAlertRequestTest extends TestCase
         $this->assertEquals('any source', $request->getBody()['source']);
     }
 
-    public function testCanGetHttpMethod()
+    public function testCanGetHttpMethod(): void
     {
         $request = new CloseAlertRequest('testalert');
         $this->assertEquals('POST', $request->getHttpMethod());

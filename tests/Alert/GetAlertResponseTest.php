@@ -20,13 +20,13 @@ use PHPUnit\Framework\TestCase;
  */
 class GetAlertResponseTest extends TestCase
 {
-    public function testIsSuccessful()
+    public function testIsSuccessful(): void
     {
         $response = new GetAlertResponse(200, []);
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCanConstructAlertFromResponse()
+    public function testCanConstructAlertFromResponse(): void
     {
         $response = new GetAlertResponse(200, [
             'data' => [
@@ -46,7 +46,7 @@ class GetAlertResponseTest extends TestCase
         $this->assertInstanceOf(Alert::class, $response->getAlert());
     }
 
-    public function testNoAlertIsConstructedWhenNoData()
+    public function testNoAlertIsConstructedWhenNoData(): void
     {
         $response = new GetAlertResponse(200, []);
         $this->assertNull($response->getAlert());

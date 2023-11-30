@@ -7,7 +7,6 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client;
 
 use GuzzleHttp\Exception\BadResponseException;
@@ -21,28 +20,24 @@ use JTL\OpsGenie\Client\Heartbeat\PingRequest;
 use JTL\OpsGenie\Client\Heartbeat\PingResponse;
 use Psr\Http\Message\ResponseInterface;
 
-final class HeartbeatApiClient
+final readonly class HeartbeatApiClient
 {
     /**
-     * @var HttpClient
-     */
-    private $client;
-
-    /**
      * HeartbeatApiClient constructor.
-     * @param HttpClient $client
      */
-    public function __construct(HttpClient $client)
+    public function __construct(private HttpClient $client)
     {
-        $this->client = $client;
     }
 
     /**
      * @param PingRequest $request
-     * @return PingResponse|OpsGenieResponse
+     * @return PingResponse&OpsGenieResponse
+     * @throws Exception\ApiRequestFailException
      */
     public function sendPing(PingRequest $request): PingResponse
     {
-        return $this->client->request($request, PingResponse::class);
+        /** @var PingResponse $response */
+        $response = $this->client->request($request, PingResponse::class);
+        return $response;
     }
 }

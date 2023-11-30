@@ -15,17 +15,10 @@ use JTL\OpsGenie\Client\Responder;
 class CreateAlertRequest implements OpsGenieRequest
 {
     /**
-     * @var Alert
-     */
-    private $alert;
-
-    /**
      * CreateAlertRequest constructor.
-     * @param Alert $alert
      */
-    public function __construct(Alert $alert)
+    public function __construct(private readonly \JTL\OpsGenie\Client\Alert\Alert $alert)
     {
-        $this->alert = $alert;
     }
 
     /**
@@ -57,11 +50,11 @@ class CreateAlertRequest implements OpsGenieRequest
             "priority" => (string)$this->alert->getPriority()
         ];
 
-        if (!empty($this->alert->getDescription())) {
+        if ($this->alert->getDescription() !== null && $this->alert->getDescription() !== '') {
             $body['description'] = $this->alert->getDescription();
         }
 
-        if (!empty($this->alert->getTags())) {
+        if ($this->alert->getTags() !== []) {
             $body['tags'] = $this->alert->getTags();
         }
 

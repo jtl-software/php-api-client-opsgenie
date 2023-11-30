@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This File is part of JTL-Software
  *
@@ -14,6 +15,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use JsonException;
 use JTL\OpsGenie\Client\Exception\ApiRequestFailException;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
@@ -71,7 +73,6 @@ class HttpClient
             ];
 
             if ($request->getHttpMethod() !== "GET") {
-
                 //add default empty body as default because php  will otherwise create a [] as body
                 $option['body'] = "{}";
 
@@ -82,7 +83,7 @@ class HttpClient
 
             $response = $this->client->request($request->getHttpMethod(), $request->getUrl(), $option);
         } catch (BadResponseException $e) {
-            $response =  $e->getResponse();
+            $response = $e->getResponse();
         } catch (GuzzleException|Exception $e) {
             $msg = $e::class . ": " . $e->getMessage();
             throw new ApiRequestFailException($msg, $e->getCode(), $e);
@@ -92,15 +93,30 @@ class HttpClient
     }
 
     /**
+     * @param ResponseInterface $response
+     * @param string $objectName
      * @return OpsGenieResponse
+     * @throws JsonException
      */
-    public function createResponse(ResponseInterface $response, string $objectName): OpsGenieResponse
+    private function createResponse(ResponseInterface $response, string $objectName): OpsGenieResponse
     {
-        return new $objectName($response->getStatusCode(), $this->getBodyAsArray((string)$response->getBody()));
+        $responseObject = new $objectName(
+            $response->getStatusCode(),
+            $this->getBodyAsArray((string)$response->getBody())
+        );
+        if ($responseObject instanceof OpsGenieResponse) {
+            return $responseObject;
+        }
+
+        throw new RuntimeException(
+            "Response object must be an instance of " . OpsGenieResponse::class . " but got " . $objectName
+        );
     }
 
     /**
+     * @param string $body
      * @return array
+     * @throws JsonException
      */
     protected function getBodyAsArray(string $body): array
     {

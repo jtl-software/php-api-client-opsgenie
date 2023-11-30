@@ -25,15 +25,19 @@ final readonly class HeartbeatApiClient
     /**
      * HeartbeatApiClient constructor.
      */
-    public function __construct(private \JTL\OpsGenie\Client\HttpClient $client)
+    public function __construct(private HttpClient $client)
     {
     }
 
     /**
-     * @return PingResponse|OpsGenieResponse
+     * @param PingRequest $request
+     * @return PingResponse&OpsGenieResponse
+     * @throws Exception\ApiRequestFailException
      */
     public function sendPing(PingRequest $request): PingResponse
     {
-        return $this->client->request($request, PingResponse::class);
+        /** @var PingResponse $response */
+        $response = $this->client->request($request, PingResponse::class);
+        return $response;
     }
 }

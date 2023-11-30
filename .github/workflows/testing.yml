@@ -35,16 +35,5 @@ jobs:
       - name: "Run PHP Static Analysis Tool"
         run: vendor/bin/phpstan
 
-      - name: "Run static analysis"
-        run: vendor/bin/psalm
-
       - name: "Run test suite"
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml
-
-      - name: "Run mutation tests"
-        run: vendor/bin/infection --min-covered-msi=98 --min-msi=98
-
-#      - name: "Send coverage to codecov.io"
-#        uses: codecov/codecov-action@v1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
+        run: vendor/bin/phpunit

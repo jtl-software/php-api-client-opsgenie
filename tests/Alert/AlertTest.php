@@ -95,7 +95,7 @@ class AlertTest extends TestCase
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $alert->appendTag('foo')
-            ->appendTag(2);
+            ->appendTag('2');
 
         $this->assertCount(2, $alert->getTags());
         $this->assertEquals(['foo', '2'], $alert->getTags());

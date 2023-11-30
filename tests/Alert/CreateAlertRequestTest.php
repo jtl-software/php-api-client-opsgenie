@@ -38,12 +38,14 @@ class CreateAlertRequestTest extends TestCase
     {
         $alert = $this->createMock(Alert::class);
         $alert->expects($this->atLeastOnce())->method('getResponders')->willReturn([
-            $this->createMock(Responder::class),
-            $this->createMock(Responder::class)
+            new Responder('foo', Responder::team),
+            new Responder('bar', Responder::user),
         ]);
         $request = new CreateAlertRequest($alert);
 
         $this->assertArrayHasKey('responders', $request->getBody());
+        $this->assertEquals(['id' => 'foo', 'type' => 'team'], $request->getBody()['responders'][0]);
+        $this->assertEquals(['id' => 'bar', 'type' => 'user'], $request->getBody()['responders'][1]);
     }
 
     public function testCanAppendTags(): void

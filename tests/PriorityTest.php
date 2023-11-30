@@ -15,32 +15,32 @@ use PHPUnit\Framework\TestCase;
  */
 class PriorityTest extends TestCase
 {
-    public function testCanCreateCritical()
+    public function testCanCreateCritical(): void
     {
         $this->assertInstanceOf(Priority::class, Priority::critical());
     }
 
-    public function testCanCreateHigh()
+    public function testCanCreateHigh(): void
     {
         $this->assertInstanceOf(Priority::class, Priority::high());
     }
 
-    public function testCanCreateModerate()
+    public function testCanCreateModerate(): void
     {
         $this->assertInstanceOf(Priority::class, Priority::moderate());
     }
 
-    public function testCanCreateLow()
+    public function testCanCreateLow(): void
     {
         $this->assertInstanceOf(Priority::class, Priority::low());
     }
 
-    public function testCanCreateInformational()
+    public function testCanCreateInformational(): void
     {
         $this->assertInstanceOf(Priority::class, Priority::informational());
     }
 
-    public function testCanCastToString()
+    public function testCanCastToString(): void
     {
         $this->assertEquals('P5', (string)Priority::informational());
     }

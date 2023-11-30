@@ -15,25 +15,25 @@ use PHPUnit\Framework\TestCase;
  */
 class GetAlertRequestTest extends TestCase
 {
-    public function testCanCreateCorrectUrl()
+    public function testCanCreateCorrectUrl(): void
     {
         $get = new GetAlertRequest('alias');
         $this->assertEquals('alerts/alias?identifierType=alias', $get->getUrl());
     }
 
-    public function testCanCreateCorrectUrlEncodedUrl()
+    public function testCanCreateCorrectUrlEncodedUrl(): void
     {
         $get = new GetAlertRequest('a l i a s / foo . 1');
         $this->assertEquals('alerts/a+l+i+a+s+%2F+foo+.+1?identifierType=alias', $get->getUrl());
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $get = new GetAlertRequest('alias');
         $this->assertEquals([], $get->getBody());
     }
 
-    public function testGetHttpMethod()
+    public function testGetHttpMethod(): void
     {
         $get = new GetAlertRequest('alias');
         $this->assertEquals('GET', $get->getHttpMethod());

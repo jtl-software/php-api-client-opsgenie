@@ -8,29 +8,15 @@ use JTL\OpsGenie\Client\OpsGenieRequest;
 
 class AckAlertRequest implements OpsGenieRequest
 {
-    /**
-     * @var string
-     */
-    private $alias;
+    private ?string $user = null;
 
-    /**
-     * @var string
-     */
-    private $user;
+    private ?string $source = null;
 
-    /**
-     * @var string
-     */
-    private $source;
+    private ?string $note = null;
 
-    /**
-     * @var string
-     */
-    private $note;
-
-    public function __construct(string $alias)
-    {
-        $this->alias = $alias;
+    public function __construct(
+        private readonly string $alias
+    ) {
     }
 
     public function setUser(string $user): void
@@ -54,22 +40,22 @@ class AckAlertRequest implements OpsGenieRequest
     }
 
     public function getUrl(): string
-    {     
-        return 'acknowledge';
+    {
+        return 'acknowledge?identifierType=alias&identifier=' . urlencode($this->alias);
     }
 
     public function getBody(): array
     {
         $request = [];
-        if (!empty($this->user)) {
+        if ($this->user !== null && $this->user !== '') {
             $request['user'] = $this->user;
         }
 
-        if (!empty($this->source)) {
+        if ($this->source !== null && $this->source !== '') {
             $request['source'] = $this->source;
         }
 
-        if (!empty($this->note)) {
+        if ($this->note !== null && $this->note !== '') {
             $request['note'] = $this->note;
         }
 

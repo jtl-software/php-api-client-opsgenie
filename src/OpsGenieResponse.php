@@ -10,26 +10,11 @@ namespace JTL\OpsGenie\Client;
 
 abstract class OpsGenieResponse
 {
-
-    /**
-     * @var int
-     */
-    private $statusCode;
-
-    /**
-     * @var array
-     */
-    private $body;
-
     /**
      * OpsGenieResponse constructor.
-     * @param int $statusCode
-     * @param array $body
      */
-    public function __construct(int $statusCode, array $body)
+    public function __construct(private readonly int $statusCode, private array $body)
     {
-        $this->statusCode = $statusCode;
-        $this->body = $body;
     }
 
     /**
@@ -41,7 +26,6 @@ abstract class OpsGenieResponse
     }
 
     /**
-     * @param string $key
      * @return mixed|null
      */
     public function getFromBody(string $key)

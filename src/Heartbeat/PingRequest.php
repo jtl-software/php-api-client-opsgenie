@@ -7,23 +7,14 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client\Heartbeat;
-
 
 use JTL\OpsGenie\Client\OpsGenieRequest;
 
 class PingRequest implements OpsGenieRequest
 {
-
-    /**
-     * @var string
-     */
-    private $heartbeat;
-
-    public function __construct(string $heartbeat)
+    public function __construct(private readonly string $heartbeat)
     {
-        $this->heartbeat = $heartbeat;
     }
 
     public function getHttpMethod(): string

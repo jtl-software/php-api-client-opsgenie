@@ -17,14 +17,13 @@ use PHPUnit\Framework\TestCase;
  */
 class PingResponseTest extends TestCase
 {
-
-    public function testIsSuccessful()
+    public function testIsSuccessful(): void
     {
         $response = new PingResponse(202, []);
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testIsNotSuccessful()
+    public function testIsNotSuccessful(): void
     {
         $response = new PingResponse(500, []);
         $this->assertFalse($response->isSuccessful());

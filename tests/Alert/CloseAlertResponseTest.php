@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CloseAlertResponseTest extends TestCase
 {
-    public function testHttpCode202IsSuccessful()
+    public function testHttpCode202IsSuccessful(): void
     {
         $response = new CloseAlertResponse(202, []);
         $this->assertTrue($response->isSuccessful());

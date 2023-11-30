@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ErrorResponseTest extends TestCase
 {
-    public function testIsNotSuccessful()
+    public function testIsNotSuccessful(): void
     {
         $err = new ErrorResponse(1, []);
         $this->assertFalse($err->isSuccessful());

@@ -18,52 +18,52 @@ use PHPUnit\Framework\TestCase;
  */
 class AlertTest extends TestCase
 {
-    public function testCanCreateAlertWithDefaultPriority()
+    public function testCanCreateAlertWithDefaultPriority(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertInstanceOf(Alert::class, $alert);
         $this->assertEquals(Priority::moderate(), $alert->getPriority());
     }
 
-    public function testCanCreateAlertWithPriority()
+    public function testCanCreateAlertWithPriority(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source", Priority::informational());
         $this->assertInstanceOf(Alert::class, $alert);
         $this->assertEquals(Priority::informational(), $alert->getPriority());
     }
 
-    public function testCanReadEntity()
+    public function testCanReadEntity(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEquals("entity", $alert->getEntity());
     }
 
-    public function testCanReadAlias()
+    public function testCanReadAlias(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEquals("alias", $alert->getAlias());
     }
 
-    public function testCanReadMessage()
+    public function testCanReadMessage(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEquals("message", $alert->getMessage());
     }
 
-    public function testCanReadSource()
+    public function testCanReadSource(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEquals("source", $alert->getSource());
     }
 
-    public function testDescriptionIsOptional()
+    public function testDescriptionIsOptional(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
 
         $this->assertNull($alert->getDescription());
     }
 
-    public function testCanSetDescription()
+    public function testCanSetDescription(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
 
@@ -71,13 +71,13 @@ class AlertTest extends TestCase
         $this->assertEquals("dingens", $alert->getDescription());
     }
 
-    public function testResponderIsOptional()
+    public function testResponderIsOptional(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEmpty($alert->getResponders());
     }
 
-    public function testSetResponder()
+    public function testSetResponder(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $alert->appendResponder($this->createMock(Responder::class));
@@ -85,13 +85,13 @@ class AlertTest extends TestCase
         $this->assertCount(1, $alert->getResponders());
     }
 
-    public function testTagIsOptional()
+    public function testTagIsOptional(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $this->assertEmpty($alert->getTags());
     }
 
-    public function testAppendTag()
+    public function testAppendTag(): void
     {
         $alert = new Alert("entity", 'alias', "message", "source");
         $alert->appendTag('foo')

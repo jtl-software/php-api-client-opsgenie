@@ -7,58 +7,32 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client\Alert;
 
 use JTL\OpsGenie\Client\OpsGenieRequest;
 
 class CloseAlertRequest implements OpsGenieRequest
 {
+    private ?string $user = null;
 
-    /**
-     * @var string
-     */
-    private $alias;
+    private ?string $source = null;
 
-    /**
-     * @var string
-     */
-    private $user;
+    private ?string $note = null;
 
-    /**
-     * @var string
-     */
-    private $source;
-
-    /**
-     * @var string
-     */
-    private $note;
-
-    public function __construct(string $alias)
+    public function __construct(private readonly string $alias)
     {
-        $this->alias = $alias;
     }
 
-    /**
-     * @param string $user
-     */
     public function setUser(string $user): void
     {
         $this->user = $user;
     }
 
-    /**
-     * @param string $source
-     */
     public function setSource(string $source): void
     {
         $this->source = $source;
     }
 
-    /**
-     * @param string $note
-     */
     public function setNote(string $note): void
     {
         $this->note = $note;
@@ -78,15 +52,15 @@ class CloseAlertRequest implements OpsGenieRequest
     public function getBody(): array
     {
         $request = [];
-        if (!empty($this->user)) {
+        if ($this->user !== null && $this->user !== '') {
             $request['user'] = $this->user;
         }
 
-        if (!empty($this->source)) {
+        if ($this->source !== null && $this->source !== '') {
             $request['source'] = $this->source;
         }
 
-        if (!empty($this->note)) {
+        if ($this->note !== null && $this->note !== '') {
             $request['note'] = $this->note;
         }
 

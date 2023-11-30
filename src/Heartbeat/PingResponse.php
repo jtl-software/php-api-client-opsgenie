@@ -7,15 +7,12 @@
  */
 declare(strict_types=1);
 
-
 namespace JTL\OpsGenie\Client\Heartbeat;
-
 
 use JTL\OpsGenie\Client\OpsGenieResponse;
 
 class PingResponse extends OpsGenieResponse
 {
-
     /**
      * @return bool
      */

@@ -18,14 +18,14 @@ use PHPUnit\Framework\TestCase;
  */
 class CreateAlertRequestTest extends TestCase
 {
-    public function testCanCreateAlertRequest()
+    public function testCanCreateAlertRequest(): void
     {
         $alert = $this->createMock(Alert::class);
         $request = new CreateAlertRequest($alert);
         $this->assertInstanceOf(CreateAlertRequest::class, $request);
     }
 
-    public function testCanSetDescription()
+    public function testCanSetDescription(): void
     {
         $alert = $this->createMock(Alert::class);
         $alert->expects($this->atLeastOnce())->method('getDescription')->willReturn('foo mag bar');
@@ -34,7 +34,7 @@ class CreateAlertRequestTest extends TestCase
         $this->assertArrayHasKey('description', $request->getBody());
     }
 
-    public function testCanAppendResponder()
+    public function testCanAppendResponder(): void
     {
         $alert = $this->createMock(Alert::class);
         $alert->expects($this->atLeastOnce())->method('getResponders')->willReturn([
@@ -46,7 +46,7 @@ class CreateAlertRequestTest extends TestCase
         $this->assertArrayHasKey('responders', $request->getBody());
     }
 
-    public function testCanAppendTags()
+    public function testCanAppendTags(): void
     {
         $alert = $this->createMock(Alert::class);
         $alert->expects($this->atLeastOnce())->method('getTags')->willReturn(['foo', 'bar']);
@@ -55,7 +55,7 @@ class CreateAlertRequestTest extends TestCase
         $this->assertArrayHasKey('tags', $request->getBody());
     }
 
-    public function testCanGetRequestBody()
+    public function testCanGetRequestBody(): void
     {
         $alert = $this->createMock(Alert::class);
         $alert->expects($this->atLeastOnce())->method('getEntity')
@@ -80,13 +80,13 @@ class CreateAlertRequestTest extends TestCase
         $this->assertArrayHasKey('priority', $body);
     }
 
-    public function testHttpMethodIsPost()
+    public function testHttpMethodIsPost(): void
     {
         $request = new CreateAlertRequest($this->createMock(Alert::class));
         $this->assertEquals('POST', $request->getHttpMethod());
     }
 
-    public function testUrlIsAlerts()
+    public function testUrlIsAlerts(): void
     {
         $request = new CreateAlertRequest($this->createMock(Alert::class));
         $this->assertEquals('alerts', $request->getUrl());
